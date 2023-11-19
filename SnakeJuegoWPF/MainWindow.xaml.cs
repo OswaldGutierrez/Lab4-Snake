@@ -28,6 +28,14 @@ namespace SnakeJuegoWPF
             {Cuadricula.Food, Imagenes.Food }
         };
 
+        private readonly Dictionary<Direccion, int> dirToRotation = new()
+        {
+            {Direccion.arriba, 0 },
+            {Direccion.abajo, 180 },
+            {Direccion.derecha, 90 },
+            {Direccion.izquierda, 270 }
+        };
+
         private readonly int filas = 15, columnas = 15;
         private readonly Image[,] gridImages;
         private EstadoDeJuego estadoDeJuego;
@@ -112,7 +120,8 @@ namespace SnakeJuegoWPF
                 {
                     Image image = new Image
                     {
-                        Source = Imagenes.Empty
+                        Source = Imagenes.Empty,
+                        RenderTransformOrigin = new Point(0.5, 0.5)
                     };
 
                     images[i, j] = image;
@@ -127,6 +136,7 @@ namespace SnakeJuegoWPF
         private void dibujar()
         {
             dibujarCuadricula();
+            DrawSnakeHead();
             ScoreText.Text = $"SCORE {estadoDeJuego.Puntaje}";
         }
 
@@ -138,8 +148,19 @@ namespace SnakeJuegoWPF
                 {
                     Cuadricula gridVal = estadoDeJuego.Cuadriculita[i, j];
                     gridImages[i, j].Source = gridValToImage[gridVal];
+                    gridImages[i, j].RenderTransform = Transform.Identity;
                 }
             }
+        }
+
+        private void DrawSnakeHead()
+        {
+            Posicion headPos = estadoDeJuego.headPosicion();
+            Image image = gridImages[headPos.Filas, headPos.Columnas];
+            image.Source = Imagenes.Head;
+
+            int rotation = dirToRotation[estadoDeJuego.Dir];
+            image.RenderTransform = new RotateTransform(rotation); 
         }
 
         private async Task ShowCountDown()
