@@ -43,6 +43,7 @@ namespace SnakeJuegoWPF
         private async Task ejecutarJuego()
         {
             dibujar();
+            await ShowCountDown();
             Overlay.Visibility = Visibility.Hidden;
             await GameLoop();
         }
@@ -136,6 +137,15 @@ namespace SnakeJuegoWPF
                     Cuadricula gridVal = estadoDeJuego.Cuadriculita[i, j];
                     gridImages[i, j].Source = gridValToImage[gridVal];
                 }
+            }
+        }
+
+        private async Task ShowCountDown()
+        {
+            for( int i = 5;i >= 1; i--)
+            {
+                OverlayText.Text = i.ToString();
+                await Task.Delay(1000);
             }
         }
     }
