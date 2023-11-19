@@ -16,6 +16,7 @@ namespace SnakeJuegoWPF
         public int Puntaje { get; private set; }
         public bool GameOver { get; private set; }
 
+        private readonly LinkedList<Direccion> dirChanges = new LinkedList<Direccion>();
         private readonly LinkedList<Posicion> snakePosicion = new LinkedList<Posicion>();
         private readonly Random random = new Random();
 
@@ -43,7 +44,7 @@ namespace SnakeJuegoWPF
 
         private IEnumerable<Posicion> posicionesVacias()
         {
-            for(int i = 0; i < Filas; i++)
+            for (int i = 0; i < Filas; i++)
             {
                 for (int j = 0; j < Columnas; j++)
                 {
@@ -96,9 +97,33 @@ namespace SnakeJuegoWPF
             snakePosicion.RemoveLast();
         }
 
+
+        private Direccion GetLastDirection()
+        {
+            if (dirChanges.Count == 0)
+            {
+                return Dir;
+            }
+
+            return dirChanges.Last.Value;
+        }
+
+        private bool CanChangeDirection(Direccion newDir)
+        {
+            if (dirChanges.Count == 2)
+            {
+                return false;
+            }
+
+            Direccion lastDir = GetLastDirection();
+            return newDir != lastDir && newDir != lastDir.movOpuesto();
+        }
         public void ChangeDirection(Direccion dir)
         {
-            Dir = dir;
+            if (CanChangeDirection(dir))
+            {
+                dirChanges.AddLast(dir);
+            }
         }
 
         private bool OutsideGrid(Posicion pos)
@@ -123,6 +148,13 @@ namespace SnakeJuegoWPF
 
         public void Move()
         {
+
+            if (dirChanges.Count > 0)
+            {
+                Dir = dirChanges.First.Value;
+                dirChanges.RemoveFirst();
+            }
+
             Posicion newHeadPos = headPosicion().Translate(Dir);
             Cuadricula hit = WillHit(newHeadPos);
 
