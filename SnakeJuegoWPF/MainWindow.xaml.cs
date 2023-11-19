@@ -46,6 +46,8 @@ namespace SnakeJuegoWPF
             await ShowCountDown();
             Overlay.Visibility = Visibility.Hidden;
             await GameLoop();
+            await ShowGameOver();
+            estadoDeJuego = new EstadoDeJuego(filas, columnas);
         }
 
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -147,6 +149,13 @@ namespace SnakeJuegoWPF
                 OverlayText.Text = i.ToString();
                 await Task.Delay(1000);
             }
+        }
+
+        private async Task ShowGameOver()
+        {
+            await Task.Delay(1000);
+            Overlay.Visibility = Visibility.Visible;
+            OverlayText.Text = "Pulsa una tecla para jugar";
         }
     }
 }
