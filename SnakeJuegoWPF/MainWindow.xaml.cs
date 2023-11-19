@@ -31,6 +31,7 @@ namespace SnakeJuegoWPF
         private readonly int filas = 15, columnas = 15;
         private readonly Image[,] gridImages;
         private EstadoDeJuego estadoDeJuego;
+        private bool ejecutandoJuego;
 
         public MainWindow()
         {
@@ -39,10 +40,26 @@ namespace SnakeJuegoWPF
             estadoDeJuego = new EstadoDeJuego(filas, columnas);
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        private async Task ejecutarJuego()
         {
             dibujar();
+            Overlay.Visibility = Visibility.Hidden;
             await GameLoop();
+        }
+
+        private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Overlay.Visibility == Visibility.Visible)
+            {
+                e.Handled = true;
+            }
+
+            if (!ejecutandoJuego)
+            {
+                ejecutandoJuego = true;
+                await ejecutarJuego();
+                ejecutandoJuego = false;
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
