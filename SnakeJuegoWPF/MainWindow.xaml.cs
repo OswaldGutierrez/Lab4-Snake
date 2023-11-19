@@ -40,6 +40,8 @@ namespace SnakeJuegoWPF
         private readonly Image[,] gridImages;
         private EstadoDeJuego estadoDeJuego;
         private bool ejecutandoJuego;
+        private int velocidad = 400;
+        private bool aumentoDeVelocidadRealizado = false;
 
         public MainWindow()
         {
@@ -101,12 +103,38 @@ namespace SnakeJuegoWPF
         {
             while (!estadoDeJuego.GameOver)
             {
-                await Task.Delay(100);
+                await Task.Delay(velocidad);
                 estadoDeJuego.Move();
                 dibujar();
+
+                if (estadoDeJuego.Puntaje != 0 && estadoDeJuego.Puntaje % 4 == 0 && !aumentoDeVelocidadRealizado)
+                {
+                    AumentarVelocidad();
+                    aumentoDeVelocidadRealizado = true;
+                }
+
+                if (estadoDeJuego.Puntaje % 4 != 0)
+                {
+                    aumentoDeVelocidadRealizado = false;
+                }
             }
         }
 
+        private void AumentarVelocidad()
+        {
+            velocidad -= 25; // Puedes ajustar el valor de decremento según tus necesidades.
+            if (velocidad < 10) // Asegúrate de que la velocidad no sea menor que cierto límite.
+            {
+                velocidad = 10;
+            }
+        }
+
+        private void RestaurarVelocidadInicial()
+        {
+            velocidad = 800;
+        }
+
+        
 
         private Image[,] SetupGrid()
         {
@@ -191,6 +219,8 @@ namespace SnakeJuegoWPF
             await Task.Delay(1000);
             Overlay.Visibility = Visibility.Visible;
             OverlayText.Text = "Pulsa una tecla para jugar";
+
+            RestaurarVelocidadInicial();
         }
     }
 }
