@@ -163,6 +163,19 @@ namespace SnakeJuegoWPF
             image.RenderTransform = new RotateTransform(rotation); 
         }
 
+        private async Task DrawDeadSnake()
+        {
+            List<Posicion> positions = new List<Posicion>(estadoDeJuego.SnakePosicion());
+
+            for (int i = 0;i < positions.Count; i++)
+            {
+                Posicion pos = positions[i];
+                ImageSource source = (i == 0) ? Imagenes.DeadHead : Imagenes.DeadBody;
+                gridImages[pos.Filas, pos.Columnas].Source = source;
+                await Task.Delay(100);
+            }
+        }
+
         private async Task ShowCountDown()
         {
             for( int i = 5;i >= 1; i--)
@@ -174,6 +187,7 @@ namespace SnakeJuegoWPF
 
         private async Task ShowGameOver()
         {
+            await DrawDeadSnake();
             await Task.Delay(1000);
             Overlay.Visibility = Visibility.Visible;
             OverlayText.Text = "Pulsa una tecla para jugar";
