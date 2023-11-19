@@ -107,6 +107,7 @@ namespace SnakeJuegoWPF
         private void dibujar()
         {
             dibujarCuadricula();
+            ScoreText.Text = $"SCORE {estadoDeJuego.Puntaje}";
         }
 
         private void dibujarCuadricula()
