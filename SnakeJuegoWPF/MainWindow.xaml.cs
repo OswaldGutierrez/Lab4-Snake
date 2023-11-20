@@ -22,6 +22,8 @@ namespace SnakeJuegoWPF
     {
         private HistorialDePuntajes historial = new HistorialDePuntajes();
 
+
+        // Definimos un diccionario para mapear los valores de la enumeración 'Cuadricula' a las correspondientes imágenes.
         private readonly Dictionary<Cuadricula, ImageSource> gridValToImage = new()
         {
             {Cuadricula.Empty, Imagenes.Empty },
@@ -29,7 +31,9 @@ namespace SnakeJuegoWPF
             {Cuadricula.Food, Imagenes.Food }
         };
 
-        private readonly Dictionary<Direccion, int> dirToRotation = new()
+
+        // Mapea las direcciones a los ángulos de rotación en grados.
+        private readonly Dictionary<Direccion, int> rotacionImagenes = new()
         {
             {Direccion.arriba, 0 },
             {Direccion.abajo, 180 },
@@ -37,30 +41,34 @@ namespace SnakeJuegoWPF
             {Direccion.izquierda, 270 }
         };
 
-        private readonly int filas = 15, columnas = 15;
+        private readonly int filas = 15, columnas = 15;                                 // Cantidad de filas y columnas del juego
         private readonly Image[,] gridImages;
         private EstadoDeJuego estadoDeJuego;
         private bool ejecutandoJuego;
-        private int velocidad = 350;
-        private bool aumentoDeVelocidadRealizado = false;
+        private int velocidad = 350;                                                    // Velocidad inicial de la culbera
+        private bool aumentoDeVelocidadRealizado = false;                               // Determina si la velocidad aumentó
 
         public MainWindow()
         {
             InitializeComponent();
-            gridImages = SetupGrid();
+            gridImages = cuadriculaDelJuego();
             estadoDeJuego = new EstadoDeJuego(filas, columnas);
         }
 
+
+        // Se encarga de iniciar y ejecutar el juego, bajo los parámetros establecidos por mi
         private async Task ejecutarJuego()
         {
             dibujar();
-            await ShowCountDown();
+            await mostrarCuentaRegresiva();
             Overlay.Visibility = Visibility.Hidden;
-            await GameLoop();
-            await ShowGameOver();
+            await cicloDeJuego();
+            await interfazJuegoTerminado();
             estadoDeJuego = new EstadoDeJuego(filas, columnas);
         }
 
+
+        // Maneja la entrada de teclado para iniciar el juego, para este juego, lo establecimos para que inicie o reinicie cuando se presione la tecla 'espacio'
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (Overlay.Visibility == Visibility.Visible)
@@ -81,9 +89,10 @@ namespace SnakeJuegoWPF
             }
         }
 
+        // Establecemos que las flechas sean las teclas para cambiar de dirección en el juego.
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (estadoDeJuego.GameOver)
+            if (estadoDeJuego.GameOver)                                                 // Si el juego ha terminado, no porcesar más entradas de teclado.
             {
                 return;
             }
@@ -105,7 +114,9 @@ namespace SnakeJuegoWPF
             }
         }
 
-        private async Task GameLoop()
+
+        // Funcion que determina cuando el juego no haya terminado.
+        private async Task cicloDeJuego()
         {
             while (!estadoDeJuego.GameOver)
             {
@@ -113,39 +124,41 @@ namespace SnakeJuegoWPF
                 estadoDeJuego.movimiento();
                 dibujar();
 
-                if (estadoDeJuego.Puntaje != 0 && estadoDeJuego.Puntaje % 4 == 0 && !aumentoDeVelocidadRealizado)
+                // Si el puntaje es múltiplo de 3 la velocidad aumenta
+                if (estadoDeJuego.Puntaje != 0 && estadoDeJuego.Puntaje % 3 == 0 && !aumentoDeVelocidadRealizado)
                 {
-                    AumentarVelocidad();
-                    aumentoDeVelocidadRealizado = true;
+                    AumentarVelocidad();                                    // Aumenta la velocidad
+                    aumentoDeVelocidadRealizado = true;                     // Marca que la velocidad ha aumentado para evitar que aumente infinitamente
                 }
 
-                if (estadoDeJuego.Puntaje % 4 != 0)
+                if (estadoDeJuego.Puntaje % 3 != 0)
                 {
                     aumentoDeVelocidadRealizado = false;
                 }
             }
         }
 
+        // Método para aumentar la velocidad de la culebra
         private void AumentarVelocidad()
         {
-            velocidad -= 25; // Puedes ajustar el valor de decremento según tus necesidades.
+            velocidad -= 25; // Ajusta el valor de decremento de la velocidad.
             if (velocidad < 10) // Asegúrate de que la velocidad no sea menor que cierto límite.
             {
                 velocidad = 10;
             }
         }
 
+        // Método para reiniciar la velocidad
         private void RestaurarVelocidadInicial()
         {
-            velocidad = 800;
+            velocidad = 350;
         }
 
-
-
-        private Image[,] SetupGrid()
+        // Realizamos la configuración inicial de la cuadrícula visual del juego.
+        private Image[,] cuadriculaDelJuego()
         {
-            Image[,] images = new Image[filas, columnas];
-            Gamegrid.Rows = filas;
+            Image[,] images = new Image[filas, columnas];                       // Inicializa una matriz de imágenes que representa la cuadrícula del juego.
+            Gamegrid.Rows = filas;                                              // Configura el número de filas y columnas en la cuadrícula.
             Gamegrid.Columns = columnas;
 
             for (int i = 0; i < filas; i++)
@@ -167,61 +180,67 @@ namespace SnakeJuegoWPF
 
         }
 
+        // Actualiza la representación visual del juego.
         private void dibujar()
         {
-            dibujarCuadricula();
-            DrawSnakeHead();
-            ScoreText.Text = $"SCORE {estadoDeJuego.Puntaje}";
+            dibujarCuadricula();                                            // Dibuja la cuadrícula.
+            dibujarCabezaCulebra();                                         // Dibuja la cabeza de la serpiente en la cuadrícula correspondiente.
+            ScoreText.Text = $"SCORE {estadoDeJuego.Puntaje}";              // Acumula el puntaje del jugador.
         }
 
+        //  Este método se encarga de actualizar visualmente la cuadrícula del juego en la interfaz de usuario
         private void dibujarCuadricula()
         {
             for (int i = 0; i < filas; i++)
             {
                 for (int j = 0; j < columnas; j++)
                 {
-                    Cuadricula gridVal = estadoDeJuego.Cuadriculita[i, j];
-                    gridImages[i, j].Source = gridValToImage[gridVal];
-                    gridImages[i, j].RenderTransform = Transform.Identity;
+                    Cuadricula gridVal = estadoDeJuego.Cuadriculita[i, j];              // Obtiene el valor de la cuadrícula en la posición actual
+                    gridImages[i, j].Source = gridValToImage[gridVal];                  // Asignación de la imagen correspondiente
+                    gridImages[i, j].RenderTransform = Transform.Identity;              // Restablece la transformación de la imagen
                 }
             }
         }
 
-        private void DrawSnakeHead()
+        // Se encarga de actualizar visualmente la cabeza de la serpiente en la interfaz del juego.
+        private void dibujarCabezaCulebra()
         {
-            Posicion headPos = estadoDeJuego.cabezaPosicion();
-            Image image = gridImages[headPos.Filas, headPos.Columnas];
+            Posicion posicionCabeza = estadoDeJuego.cabezaPosicion();
+            Image image = gridImages[posicionCabeza.Filas, posicionCabeza.Columnas];
             image.Source = Imagenes.Head;
 
-            int rotation = dirToRotation[estadoDeJuego.Dir];
+            int rotation = rotacionImagenes[estadoDeJuego.Dir];
             image.RenderTransform = new RotateTransform(rotation);
         }
 
-        private async Task DrawDeadSnake()
-        {
-            List<Posicion> positions = new List<Posicion>(estadoDeJuego.SnakePosicion());
 
-            for (int i = 0; i < positions.Count; i++)
+        // Se encarga de actualizar la cabeza y el cuerpo cuando la serpiente ha muerto en el juego.
+        private async Task dibujarCabezaMuerta()
+        {
+            List<Posicion> posiciones = new List<Posicion>(estadoDeJuego.SnakePosicion());
+
+            for (int i = 0; i < posiciones.Count; i++)
             {
-                Posicion pos = positions[i];
+                Posicion pos = posiciones[i];
                 ImageSource source = (i == 0) ? Imagenes.DeadHead : Imagenes.DeadBody;
                 gridImages[pos.Filas, pos.Columnas].Source = source;
                 await Task.Delay(100);
             }
         }
 
-        private async Task ShowCountDown()
+        // Funcion para mostrar una cuenta regresiva antes de comenzar una partida
+        private async Task mostrarCuentaRegresiva()
         {
-            for (int i = 5; i >= 1; i--)
+            for (int i = 5; i >= 1; i--)                                 // El valor de i determina cuantas iteraciones demorará el ciclo.
             {
                 OverlayText.Text = i.ToString();
-                await Task.Delay(1000);
+                await Task.Delay(500);                                  // El valor dentro de 'Delay' determina los milisegundo que demora cada iteración.                   
             }
         }
 
-        private async Task ShowGameOver()
+        private async Task interfazJuegoTerminado()
         {
-            await DrawDeadSnake();
+            await dibujarCabezaMuerta();
             await Task.Delay(1000);
             Overlay.Visibility = Visibility.Visible;
             OverlayText.Text = "Pulsa una tecla para volver a jugar";
