@@ -8,7 +8,7 @@ namespace SnakeJuegoWPF
 {
     internal class EstadoDeJuego
     {
-        //10:45
+        //10:50
         /* Filas, Columnas, Cuadriculita, Dir, Puntaje, y GameOver son propiedades de solo lectura que proporcionan información sobre el estado actual del juego.
          * Filas y Columnas representan las dimensiones del área de juego.
          * Cuadriculita es una matriz que representa el estado de cada cuadrado en el área de juego mediante el uso del enumerado Cuadricula
