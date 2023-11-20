@@ -41,11 +41,11 @@ namespace SnakeJuegoWPF
             {Direccion.izquierda, 270 }
         };
 
-        private readonly int filas = 35, columnas = 35;                                 // Cantidad de filas y columnas del juego
+        private readonly int filas = 30, columnas = 30;                                 // Cantidad de filas y columnas del juego
         private readonly Image[,] gridImages;
         private EstadoDeJuego estadoDeJuego;
         private bool ejecutandoJuego;
-        private int velocidad = 350;                                                    // Velocidad inicial de la culbera
+        private int velocidad = 300;                                                    // Velocidad inicial de la culbera
         private bool aumentoDeVelocidadRealizado = false;                               // Determina si la velocidad aumentó
 
         public MainWindow()
@@ -124,14 +124,14 @@ namespace SnakeJuegoWPF
                 estadoDeJuego.movimiento();
                 dibujar();
 
-                // Si el puntaje es múltiplo de 3 la velocidad aumenta
-                if (estadoDeJuego.Puntaje != 0 && estadoDeJuego.Puntaje % 3 == 0 && !aumentoDeVelocidadRealizado)
+                // Si el puntaje es múltiplo de 1 la velocidad aumenta
+                if (estadoDeJuego.Puntaje != 0 && estadoDeJuego.Puntaje % 2 == 0 && !aumentoDeVelocidadRealizado)
                 {
                     AumentarVelocidad();                                    // Aumenta la velocidad
                     aumentoDeVelocidadRealizado = true;                     // Marca que la velocidad ha aumentado para evitar que aumente infinitamente
                 }
 
-                if (estadoDeJuego.Puntaje % 3 != 0)
+                if (estadoDeJuego.Puntaje % 2 != 0)
                 {
                     aumentoDeVelocidadRealizado = false;
                 }
@@ -141,7 +141,7 @@ namespace SnakeJuegoWPF
         // Método para aumentar la velocidad de la culebra
         private void AumentarVelocidad()
         {
-            velocidad -= 35; // Ajusta el valor de decremento de la velocidad.
+            velocidad -= 25; // Ajusta el valor de decremento de la velocidad.
             if (velocidad < 10) // Asegúrate de que la velocidad no sea menor que cierto límite.
             {
                 velocidad = 10;
@@ -151,7 +151,7 @@ namespace SnakeJuegoWPF
         // Método para reiniciar la velocidad
         private void RestaurarVelocidadInicial()
         {
-            velocidad = 350;
+            velocidad = 300;
         }
 
         // Realizamos la configuración inicial de la cuadrícula visual del juego.
@@ -243,7 +243,7 @@ namespace SnakeJuegoWPF
             await dibujarCabezaMuerta();
             await Task.Delay(1000);
             Overlay.Visibility = Visibility.Visible;
-            OverlayText.Text = "Pulsa una tecla para volver a jugar";
+            OverlayText.Text = "Pulsa 'espacio' para volver a jugar";
 
             RestaurarVelocidadInicial();
 
