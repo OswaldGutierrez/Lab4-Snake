@@ -91,16 +91,16 @@ namespace SnakeJuegoWPF
             switch (e.Key)
             {
                 case Key.Left:
-                    estadoDeJuego.ChangeDirection(Direccion.izquierda);
+                    estadoDeJuego.cambiaDireccion(Direccion.izquierda);
                     break;
                 case Key.Right:
-                    estadoDeJuego.ChangeDirection(Direccion.derecha);
+                    estadoDeJuego.cambiaDireccion(Direccion.derecha);
                     break;
                 case Key.Up:
-                    estadoDeJuego.ChangeDirection(Direccion.arriba);
+                    estadoDeJuego.cambiaDireccion(Direccion.arriba);
                     break;
                 case Key.Down:
-                    estadoDeJuego.ChangeDirection(Direccion.abajo);
+                    estadoDeJuego.cambiaDireccion(Direccion.abajo);
                     break;
             }
         }
@@ -110,7 +110,7 @@ namespace SnakeJuegoWPF
             while (!estadoDeJuego.GameOver)
             {
                 await Task.Delay(velocidad);
-                estadoDeJuego.Move();
+                estadoDeJuego.movimiento();
                 dibujar();
 
                 if (estadoDeJuego.Puntaje != 0 && estadoDeJuego.Puntaje % 4 == 0 && !aumentoDeVelocidadRealizado)
@@ -189,7 +189,7 @@ namespace SnakeJuegoWPF
 
         private void DrawSnakeHead()
         {
-            Posicion headPos = estadoDeJuego.headPosicion();
+            Posicion headPos = estadoDeJuego.cabezaPosicion();
             Image image = gridImages[headPos.Filas, headPos.Columnas];
             image.Source = Imagenes.Head;
 

@@ -6,21 +6,31 @@ using System.Threading.Tasks;
 
 namespace SnakeJuegoWPF
 {
+
+    // Clase para proprocionar una manera conveniente de trabajar con coordenadas en el espacio bidimensional y ofrece métodos para realizar desplazamientos y comparaciones de igualdad.
     internal class Posicion
     {
+
+        // Propiedades de solo lectura para Filas y Columnas
         public int Filas { get; }
         public int Columnas { get; }
 
+
+        // Constructor para inicializar una instancia de Posicion
         public Posicion(int filas, int columnas)
         {
             Filas = filas;
             Columnas = columnas;
         }
 
-        public Posicion Translate(Direccion dir)
+
+        // Método para realizar un desplazamiento en la posición según una dirección dada
+        public Posicion nuevaPosicion(Direccion dir)
         {
             return new Posicion(Filas + dir.DesplazamientoFilas, Columnas + dir.DesplazamientoColumnas);
         }
+
+
 
 
         /* Sobrescribir Equals y GetHashCode:

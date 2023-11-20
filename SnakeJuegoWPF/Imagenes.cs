@@ -4,18 +4,22 @@ using System.Windows.Media.Imaging;
 
 namespace SnakeJuegoWPF
 {
+
+    // Clase responsable para cargar las imágenes que representarán el juego.
     public static class Imagenes
     {
-        public readonly static ImageSource Empty = LoadImage("Empty.png");
-        public readonly static ImageSource Body = LoadImage("Body.png");
-        public readonly static ImageSource Head = LoadImage("Head.png");
-        public readonly static ImageSource Food = LoadImage("Food.png");
-        public readonly static ImageSource DeadBody = LoadImage("DeadBody.png");
-        public readonly static ImageSource DeadHead = LoadImage("DeadHead.png");
+        public readonly static ImageSource Empty = cargarImagen("Empty.png");
+        public readonly static ImageSource Body = cargarImagen("Body.png");
+        public readonly static ImageSource Head = cargarImagen("Head.png");
+        public readonly static ImageSource Food = cargarImagen("Food.png");
+        public readonly static ImageSource DeadBody = cargarImagen("DeadBody.png");
+        public readonly static ImageSource DeadHead = cargarImagen("DeadHead.png");
 
-        private static ImageSource LoadImage(string fileName)
+
+        // Método para cargar las imágenes
+        private static ImageSource cargarImagen(string nombreArchivo)
         {
-            return new BitmapImage(new Uri($"Assets/{fileName}", UriKind.Relative));
+            return new BitmapImage(new Uri($"Assets/{nombreArchivo}", UriKind.Relative));
         }
 
     }
