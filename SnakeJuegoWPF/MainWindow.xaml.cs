@@ -146,7 +146,7 @@ namespace SnakeJuegoWPF
             {
                 velocidad = 10;
             }
-        }
+        } 
 
         // Método para reiniciar la velocidad
         private void RestaurarVelocidadInicial()
