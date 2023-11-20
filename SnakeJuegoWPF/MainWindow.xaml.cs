@@ -41,7 +41,7 @@ namespace SnakeJuegoWPF
         private readonly Image[,] gridImages;
         private EstadoDeJuego estadoDeJuego;
         private bool ejecutandoJuego;
-        private int velocidad = 400;
+        private int velocidad = 350;
         private bool aumentoDeVelocidadRealizado = false;
 
         public MainWindow()

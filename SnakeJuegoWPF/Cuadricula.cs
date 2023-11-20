@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SnakeJuegoWPF
+﻿namespace SnakeJuegoWPF
 {
+
+    // Cramos una clase de tipo enumerado para representar las constantes del juego.
     public enum Cuadricula
     {
 
-        Empty,
-        Snake,
-        Food,
-        Outside
+        Empty,                               // Representa una casilla vacía.
+        Snake,                               // Representa una casilla ocupada por la serpiente.
+        Food,                                // Representa una casilla ocupada por la comida.
+        Outside                              // Representa una casilla fuera del área del juego.
     }
 }

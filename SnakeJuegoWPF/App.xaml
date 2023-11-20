@@ -4,11 +4,11 @@
              xmlns:local="clr-namespace:SnakeJuegoWPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <SolidColorBrush x:Key="BackgroundColor">#211E2B</SolidColorBrush>
-        <SolidColorBrush x:Key="GridBackgroundColor">#312C40</SolidColorBrush>
-        <SolidColorBrush x:Key="GridLineColor">#4F4867</SolidColorBrush>
-        <SolidColorBrush x:Key="TextColor">#EBEBEB</SolidColorBrush>
-        <SolidColorBrush x:Key="OverlayColor">#7F000000</SolidColorBrush>
+        <SolidColorBrush x:Key="BackgroundColor">#FFFFFF</SolidColorBrush> <!--Color de la ventana-->
+        <SolidColorBrush x:Key="GridBackgroundColor">#87CEEB</SolidColorBrush> <!--Color de la cuadricula-->
+        <SolidColorBrush x:Key="GridLineColor">#D10056</SolidColorBrush> <!--Color del borde de la cuadricula-->
+        <SolidColorBrush x:Key="TextColor">#EBEBEB</SolidColorBrush> <!--Color del texto-->
+        <SolidColorBrush x:Key="OverlayColor">#7F000000</SolidColorBrush> <!--Color del overlay, lo que aparece por encima de la matriz o cuadricula-->
         <FontFamily x:Key="MainFont">Assets/#Droid Sans Mono</FontFamily>
     </Application.Resources>
 </Application>

@@ -27,7 +27,7 @@
                VerticalAlignment="Center"
                Text="SCORE 0"
                FontSize="22"
-               Margin="10" />
+               Margin="10" Foreground="#FF02063E" />
 
             <Border x:Name="GridBorder"
             Grid.Row="1"
@@ -72,10 +72,10 @@
 
 
             </Border>
-            <TextBlock HorizontalAlignment="Left" Margin="-162,0,0,0" TextWrapping="Wrap" TextAlignment="Justify" Text="Guía la culebra para que coma y crezca tanto como sea posible." VerticalAlignment="Top" Height="49" Width="164" Grid.Row="1" FontFamily="Calisto MT"/>
-            <TextBlock HorizontalAlignment="Left" Margin="-162,49,0,0" TextWrapping="Wrap" TextAlignment="Justify" Text="Usa las 'flechitas' para moverte." VerticalAlignment="Top" Height="36" Width="164" Grid.Row="1" FontFamily="Calisto MT"/>
-            <TextBlock HorizontalAlignment="Left" Margin="-162,85,0,0" Grid.Row="1" TextWrapping="Wrap" Text="La velocidad aumentará cada 3 puntos." VerticalAlignment="Top" Height="38" Width="164" FontFamily="Calisto MT"/>
-            <TextBlock Margin="-162,139,0,0" Grid.Row="1" TextWrapping="Wrap" Text="El juego termina si la culebra colisiona consigo misma o con el borde." VerticalAlignment="Top" Height="62" Width="164" HorizontalAlignment="Left" TextAlignment="Justify" FontFamily="Californian FB"/>
+            <TextBlock HorizontalAlignment="Left" Margin="-162,0,0,0" TextWrapping="Wrap" TextAlignment="Justify" Text="Guía la culebra para que coma y crezca tanto como sea posible." VerticalAlignment="Top" Height="49" Width="164" Grid.Row="1" FontFamily="Calisto MT" Foreground="#FF02063E"/>
+            <TextBlock HorizontalAlignment="Left" Margin="-162,49,0,0" TextWrapping="Wrap" TextAlignment="Justify" Text="Usa las 'flechitas' para moverte." VerticalAlignment="Top" Height="36" Width="164" Grid.Row="1" FontFamily="Calisto MT" Foreground="#FF02063E"/>
+            <TextBlock HorizontalAlignment="Left" Margin="-162,85,0,0" Grid.Row="1" TextWrapping="Wrap" Text="La velocidad aumentará cada 3 puntos." VerticalAlignment="Top" Height="38" Width="164" FontFamily="Calisto MT" Foreground="#FF02063E"/>
+            <TextBlock Margin="-162,139,0,0" Grid.Row="1" TextWrapping="Wrap" Text="El juego termina si la culebra colisiona consigo misma o con el borde." VerticalAlignment="Top" Height="62" Width="164" HorizontalAlignment="Left" TextAlignment="Justify" FontFamily="Californian FB" Foreground="#FF02063E"/>
         </Grid>
     </Viewbox>
 </Window>
