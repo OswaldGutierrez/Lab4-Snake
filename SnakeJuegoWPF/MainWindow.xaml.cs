@@ -41,7 +41,7 @@ namespace SnakeJuegoWPF
             {Direccion.izquierda, 270 }
         };
 
-        private readonly int filas = 15, columnas = 15;                                 // Cantidad de filas y columnas del juego
+        private readonly int filas = 35, columnas = 35;                                 // Cantidad de filas y columnas del juego
         private readonly Image[,] gridImages;
         private EstadoDeJuego estadoDeJuego;
         private bool ejecutandoJuego;
@@ -141,7 +141,7 @@ namespace SnakeJuegoWPF
         // Método para aumentar la velocidad de la culebra
         private void AumentarVelocidad()
         {
-            velocidad -= 25; // Ajusta el valor de decremento de la velocidad.
+            velocidad -= 35; // Ajusta el valor de decremento de la velocidad.
             if (velocidad < 10) // Asegúrate de que la velocidad no sea menor que cierto límite.
             {
                 velocidad = 10;

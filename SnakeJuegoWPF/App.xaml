@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:SnakeJuegoWPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <SolidColorBrush x:Key="BackgroundColor">#FFFFFF</SolidColorBrush> <!--Color de la ventana-->
+        <SolidColorBrush x:Key="BackgroundColor">#E6E6FA</SolidColorBrush> <!--Color de la ventana-->
         <SolidColorBrush x:Key="GridBackgroundColor">#87CEEB</SolidColorBrush> <!--Color de la cuadricula-->
         <SolidColorBrush x:Key="GridLineColor">#D10056</SolidColorBrush> <!--Color del borde de la cuadricula-->
         <SolidColorBrush x:Key="TextColor">#EBEBEB</SolidColorBrush> <!--Color del texto-->
