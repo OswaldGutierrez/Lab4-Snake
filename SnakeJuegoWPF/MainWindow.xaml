@@ -54,14 +54,28 @@
                     Height="{Binding Path=ActualHeight, ElementName=GridBorder}"
                     Margin="{Binding Path=Margin, ElementName=GridBorder}"
                     RenderOptions.EdgeMode="Aliased">
-                <TextBlock x:Name="OverlayText"
-                           Text="PULSA UNA TECLA PARA JUGAR"
-                           FontSize="22"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           TextWrapping="Wrap"/>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock x:Name="OverlayText"
+                       Text="PULSA 'ESPACIO' PARA JUGAR"
+                       FontSize="22"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       TextWrapping="Wrap"/>
+
+                    <!-- TextBox para ingresar el nombre -->
+                    <TextBox x:Name="txtNickname" Width="120" Height="25" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" Visibility="Collapsed" />
+
+                    <!-- Button para guardar el puntaje -->
+                    <Button x:Name="buttonGuardarPuntaje" Content="Guardar Puntaje" Width="120" Height="25" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" Click="GuardarPuntaje_Click" Visibility="Collapsed" />
+
+                </StackPanel>
+
 
             </Border>
+            <TextBlock HorizontalAlignment="Left" Margin="-162,0,0,0" TextWrapping="Wrap" TextAlignment="Justify" Text="Guía la culebra para que coma y crezca tanto como sea posible." VerticalAlignment="Top" Height="49" Width="164" Grid.Row="1" FontFamily="Calisto MT"/>
+            <TextBlock HorizontalAlignment="Left" Margin="-162,49,0,0" TextWrapping="Wrap" TextAlignment="Justify" Text="Usa las 'flechitas' para moverte." VerticalAlignment="Top" Height="36" Width="164" Grid.Row="1" FontFamily="Calisto MT"/>
+            <TextBlock HorizontalAlignment="Left" Margin="-162,85,0,0" Grid.Row="1" TextWrapping="Wrap" Text="La velocidad aumentará cada 3 puntos." VerticalAlignment="Top" Height="38" Width="164" FontFamily="Calisto MT"/>
+            <TextBlock Margin="-162,139,0,0" Grid.Row="1" TextWrapping="Wrap" Text="El juego termina si la culebra colisiona consigo misma o con el borde." VerticalAlignment="Top" Height="62" Width="164" HorizontalAlignment="Left" TextAlignment="Justify" FontFamily="Californian FB"/>
         </Grid>
     </Viewbox>
 </Window>

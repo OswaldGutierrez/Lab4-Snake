@@ -20,6 +20,7 @@ namespace SnakeJuegoWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private HistorialDePuntajes historial = new HistorialDePuntajes();
 
         private readonly Dictionary<Cuadricula, ImageSource> gridValToImage = new()
         {
@@ -67,11 +68,16 @@ namespace SnakeJuegoWPF
                 e.Handled = true;
             }
 
-            if (!ejecutandoJuego)
+            // Verifica si la tecla presionada es la tecla de espacio
+            if (e.Key == Key.Space)
             {
-                ejecutandoJuego = true;
-                await ejecutarJuego();
-                ejecutandoJuego = false;
+                // Reinicia el juego solo si no está en ejecución
+                if (!ejecutandoJuego)
+                {
+                    ejecutandoJuego = true;
+                    await ejecutarJuego();
+                    ejecutandoJuego = false;
+                }
             }
         }
 
@@ -82,7 +88,7 @@ namespace SnakeJuegoWPF
                 return;
             }
 
-            switch(e.Key)
+            switch (e.Key)
             {
                 case Key.Left:
                     estadoDeJuego.ChangeDirection(Direccion.izquierda);
@@ -134,7 +140,7 @@ namespace SnakeJuegoWPF
             velocidad = 800;
         }
 
-        
+
 
         private Image[,] SetupGrid()
         {
@@ -142,9 +148,9 @@ namespace SnakeJuegoWPF
             Gamegrid.Rows = filas;
             Gamegrid.Columns = columnas;
 
-            for(int i = 0; i < filas; i++)
+            for (int i = 0; i < filas; i++)
             {
-                for(int j = 0; j < columnas; j++)
+                for (int j = 0; j < columnas; j++)
                 {
                     Image image = new Image
                     {
@@ -172,7 +178,7 @@ namespace SnakeJuegoWPF
         {
             for (int i = 0; i < filas; i++)
             {
-                for(int j = 0;j < columnas; j++)
+                for (int j = 0; j < columnas; j++)
                 {
                     Cuadricula gridVal = estadoDeJuego.Cuadriculita[i, j];
                     gridImages[i, j].Source = gridValToImage[gridVal];
@@ -188,14 +194,14 @@ namespace SnakeJuegoWPF
             image.Source = Imagenes.Head;
 
             int rotation = dirToRotation[estadoDeJuego.Dir];
-            image.RenderTransform = new RotateTransform(rotation); 
+            image.RenderTransform = new RotateTransform(rotation);
         }
 
         private async Task DrawDeadSnake()
         {
             List<Posicion> positions = new List<Posicion>(estadoDeJuego.SnakePosicion());
 
-            for (int i = 0;i < positions.Count; i++)
+            for (int i = 0; i < positions.Count; i++)
             {
                 Posicion pos = positions[i];
                 ImageSource source = (i == 0) ? Imagenes.DeadHead : Imagenes.DeadBody;
@@ -206,7 +212,7 @@ namespace SnakeJuegoWPF
 
         private async Task ShowCountDown()
         {
-            for( int i = 5;i >= 1; i--)
+            for (int i = 5; i >= 1; i--)
             {
                 OverlayText.Text = i.ToString();
                 await Task.Delay(1000);
@@ -218,9 +224,48 @@ namespace SnakeJuegoWPF
             await DrawDeadSnake();
             await Task.Delay(1000);
             Overlay.Visibility = Visibility.Visible;
-            OverlayText.Text = "Pulsa una tecla para jugar";
+            OverlayText.Text = "Pulsa una tecla para volver a jugar";
 
             RestaurarVelocidadInicial();
+
+            // Agrega el puntaje al historial
+            Puntaje nuevoPuntaje = new Puntaje
+            {
+                Nickname = "NombreJugador", // Reemplaza esto con el nombre real del jugador
+                Puntuacion = estadoDeJuego.Puntaje,
+                Fecha = DateTime.Now
+            };
+            historial.AgregarPuntaje(nuevoPuntaje);
+
+            txtNickname.Visibility = Visibility.Visible;
+            (buttonGuardarPuntaje as Button).Visibility = Visibility.Visible;
         }
+
+        private void GuardarPuntaje_Click(object sender, RoutedEventArgs e)
+        {
+            string nickname = txtNickname.Text;
+            if (!string.IsNullOrEmpty(nickname))
+            {
+                Puntaje nuevoPuntaje = new Puntaje
+                {
+                    Nickname = nickname,
+                    Puntuacion = estadoDeJuego.Puntaje,
+                    Fecha = DateTime.Now
+                };
+                historial.AgregarPuntaje(nuevoPuntaje);
+
+                // Restablecer juego o realizar otras acciones según sea necesario.
+                // ...
+
+                // Ocultar la interfaz de ingreso de puntaje.
+                txtNickname.Visibility = Visibility.Collapsed;
+                (sender as Button).Visibility = Visibility.Collapsed;
+
+                // Mostrar la interfaz de juego nuevamente o realizar otras acciones según sea necesario.
+                // ...
+            }
+        }
+
+
     }
 }
